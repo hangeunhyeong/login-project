@@ -20,7 +20,7 @@ public class JwtService {
     }
 
     // 소셜 로그인 성공 후 쿠키에 있던 refresh token을 꺼내서 검증한 뒤, 새로운 access 토큰, refresh 토큰을 응답 헤더에 담아 준다(refresh를 한번 쓰면 폐기하는 구조)
-    // 소셜 로그인 직후 1회 실행되는 초기 토큰 교환 함수(소셜로그인 핸들러에서 jwt생성 후 쿠키에 담기->프론트로 redirect->브라우저 쿠키에 refresh 토큰 담기->jwt exchange api->cookie2header)
+    // 소셜 로그인 직후 1회 실행되는 초기 토큰 교환 함수(소셜로그인 핸들러에서 jwt생성 후 쿠키에 담기->프론트로 redirect->jwt exchange api->cookie2header->로컬스토리지에 refreshtoken, access token 저장)
     // 이렇게 브라우저에 refresh쿠키를 저장시키고 access 토큰을 발급하는 이유는 소셜로그인 성공과 access 토큰 발급을 분리하기 위함이다
     @Transactional
     public JWTResponseDTO cookie2Header(HttpServletRequest request, HttpServletResponse response) {

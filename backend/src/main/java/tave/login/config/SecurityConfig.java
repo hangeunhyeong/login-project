@@ -79,7 +79,7 @@ public class SecurityConfig {
         // 인가
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/jwt/exchange", "jwt/refresh").permitAll()    // 토큰을 재발급받으려고 호출하는 API인데 그 API에 access인증을 요구하면 안되므로 permitAll
+                        .requestMatchers("/jwt/exchange", "/jwt/refresh").permitAll()    // 토큰을 재발급받으려고 호출하는 API인데 그 API에 access인증을 요구하면 안되므로 permitAll
                         .requestMatchers(HttpMethod.POST, "/user/exist", "/user").permitAll()
                         .requestMatchers(HttpMethod.GET, "/user").hasRole(UserRoleType.USER.name()) // user권한 있어야함(인증도 필요)
                         .requestMatchers(HttpMethod.PUT, "/user").hasRole(UserRoleType.USER.name())
@@ -125,6 +125,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowCredentials(true);
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));  // 클라이언트가 보내는 요청헤더는 전부 허용
         configuration.setExposedHeaders(List.of("Authorization", "Set-Cookie"));    // 브라우저의 프론트 코드가 읽기 가능한 응답헤더
